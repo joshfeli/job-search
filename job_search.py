@@ -34,4 +34,4 @@ r = requests.get(f'https://serpapi.com/search.json?engine=google_jobs&q={job_fie
 data = r.json()['jobs_results']
 
 #Now that we have list of dictionaries with seperate job offerings data, we must now convert it into sql database
-print(data) #testing
+#print(data) #testing
