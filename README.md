@@ -1,5 +1,7 @@
 # job-search
 A project that grabs from a Google-search-based API to combine many query results to allow for more interdisciplinary job searches.
+
+Created while participating in [SEO's Tech Developer program](https://www.seo-usa.org/career/tech/).
 ___________
 - User/Consumer inputs job fields and locations (optional) into program which then returns job results
 fitting all parameters if found
