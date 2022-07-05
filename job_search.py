@@ -1,9 +1,5 @@
 # start with the imports
-<<<<<<< HEAD
-import pandas as pandas
-=======
 import pandas as pd
->>>>>>> 289d3657ccb8fcfcffd2a94c98e692d4dcb640d2
 import random
 import requests
 import json
