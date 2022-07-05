@@ -5,16 +5,11 @@ import requests
 import json
 import SQLAlchemy as db
 
-<<<<<<< HEAD
-# using SerpAPI -- no import needed, just the keys?
 
-job_fields = input("Enter comma-separated fields you would like to search for jobs: ")
-=======
 # using SerpAPI -- no import needed, just the keys
 
 job_fields = input( \
     "Enter comma-separated fields in which you would like to search for jobs: ").strip()
->>>>>>> 289d3657ccb8fcfcffd2a94c98e692d4dcb640d2
 location = input("(OPTIONAL) Enter a location for jobs, else hit enter: ").strip()
 
 
