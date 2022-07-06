@@ -60,7 +60,6 @@ for i in range(len(list_data)):
     for j in range(len(list_data[i])):
         for key, value in list_data[i][j].items():
             if key == 'link' and j <= 3:
-                prev_link = link_data
                 print(f'Application Link {j}: {list_data[i][j][key]}')
 
 
