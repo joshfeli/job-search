@@ -3,13 +3,15 @@ import pandas as pd
 import random
 import requests
 import json
-import SQLAlchemy as db
+import pprint
+#import SQLAlchemy as db
 
 
 # using SerpAPI -- no import needed, just the keys
 
 job_fields = input( \
-    "Enter comma-separated fields in which you would like to search for jobs: ").strip()
+    "Enter comma-separated fields in which you would like \
+to search for jobs: ").strip()
 location = input("(OPTIONAL) Enter a location for jobs, else hit enter: ").strip()
 
 
@@ -38,6 +40,25 @@ key_index = random.randint(0, 1)
 # make GET request and convert to json data containing job results
 r = requests.get(f'https://serpapi.com/search.json?engine=google_jobs&q={job_fields}&location={location}&api_key={API_KEYS[key_index]}')
 data = r.json()['jobs_results']
+#enter_into_database(data)
+pprint.pprint(data)
+
+job_nums = input("type the number of the job you are interested in. (Number meaning what place in the order shown) If you are interested \
+in multiple, seperate numbers with a ',': ")
+nums = job_nums.split(',')
+id_list = []
+for num in nums:
+    id_list.append(data[int(num)]['job_id'])
+for id in id_list:
+    l = requests.get(f'https://serpapi.com/search.json?engine=google_jobs_listing&q={id}')
+    link_data = l.json()['apply_options']
+
+for i in range(len(link_data)):
+    for key,value in link_data[i]:
+        print(f'job {i}:')
+        if key == 'link' and i <= 3:
+            print(link_data[key])
+
 
 # Now that we have list of dictionaries with seperate job offerings data, we must now convert it into sql database
 def enter_into_database(data):
