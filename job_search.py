@@ -35,7 +35,8 @@ data = r.json()['jobs_results']
 # enter_into_database(data)
 pprint.pprint(data)
 
-job_nums = input("type the number of the job you are interested in. (Number meaning what place in the order shown) If you are interested \
+job_nums = input("type the number of the job you are interested in. \
+(Number meaning what place in the order shown) If you are interested \
 in multiple, seperate numbers with a ',': ")
 nums = job_nums.split(',')
 id_list = []
@@ -43,7 +44,8 @@ for num in nums:
     id_list.append(data[int(num)]['job_id'])
 list_data = []
 for id in id_list:
-    request = requests.get(f'https://serpapi.com/search.json?engine=google_jobs_listing&q={id}&api_key={API_KEYS[key_index]}')
+    request = requests.get(f'https://serpapi.com/search.json?\
+    engine=google_jobs_listing&q={id}&api_key={API_KEYS[key_index]}')
     link_data = request.json()["apply_options"]
     list_data.append(link_data)
 for i in range(len(list_data)):
@@ -55,7 +57,8 @@ for i in range(len(list_data)):
                 print(f'Application Link {j}: {list_data[i][j][key]}')
 
 
-# Now that we have list of dictionaries with seperate job offerings data, we must now convert it into sql database
+# Now that we have list of dictionaries with seperate job offerings data
+# , we must now convert it into sql database
 def enter_into_database(data):
     data_table = pd.json_normalize(data)
     engine = db.create_engine('sqlite:///job-search-results.db')
