@@ -1,10 +1,16 @@
 import unittest
-from job_search import * # change this to import specific functions
+import job_search
+from mock_job_results import mock_results
+import pdb
 
 class TestJobSearch(unittest.TestCase):
     def setUp(self):
         pass
-        # anything that a given function requires before running tests
     
-    # def test_function_1(self):
-    #     # self.assertSomething
+    def test_enter_into_database(self):
+        # will have to update to make a fake database for tests
+        engine = job_search.enter_into_database(mock_results)
+        query_result = engine.execute('SELECT * FROM jobs;').fetchall()
+        self.assertIs(type(query_result), dict)
+        self.assertEqual(len(query_result), 3)
+        
