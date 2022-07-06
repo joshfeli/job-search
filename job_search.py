@@ -3,7 +3,7 @@ import pandas as pd
 import random
 import requests
 import json
-import SQLAlchemy as db
+import sqlalchemy as db
 
 # using SerpAPI -- no import needed, just the keys
 
@@ -38,3 +38,4 @@ def enter_into_database(data):
     data_table = pd.json_normalize(data)
     engine = db.create_engine('sqlite:///job-search-results.db')
     data_table.to_sql('jobs', con=engine, if_exists='replace', index=False)
+    return engine
