@@ -49,15 +49,17 @@ nums = job_nums.split(',')
 id_list = []
 for num in nums:
     id_list.append(data[int(num)]['job_id'])
+list_data = []
 for id in id_list:
-    l = requests.get(f'https://serpapi.com/search.json?engine=google_jobs_listing&q={id}')
-    link_data = l.json()['apply_options']
-
-for i in range(len(link_data)):
-    for key,value in link_data[i]:
-        print(f'job {i}:')
-        if key == 'link' and i <= 3:
-            print(link_data[key])
+    l = requests.get(f'https://serpapi.com/search.json?engine=google_jobs_listing&q={id}&api_key={API_KEYS[key_index]}')
+    link_data = l.json()["apply_options"]
+    list_data.append(link_data)
+for i in range(len(list_data)):
+    print(f'job {i + 1}:')
+    for j in range(len(list_data[i])):
+        for key,value in list_data[i][j].items():
+            if key == 'link' and j <= 3:
+                print(f'Application Link {j}: {link_data[i][key]}')
 
 
 # Now that we have list of dictionaries with seperate job offerings data, we must now convert it into sql database
