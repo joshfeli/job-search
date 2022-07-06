@@ -10,28 +10,27 @@ user_name = None
 while !(user_check(user_name)):
     user_name = input("Please type your firstname_lastname: ").lower().strip()
 
-#def table_exist():
-#    while !
+def create_database():
+    engine = db.create_engine('sqlite:///job-search-results.db')
+    engine.execute('SOURCE database_creation.sql')
+
+
+
+
+
 # using SerpAPI -- no import needed, just the keys
 job_fields = input("Enter comma-separated fields \
 in which you would like to search for jobs: ").strip()
 location = input("(OPTIONAL) Enter a location for jobs,\
 else hit enter: ").strip()
 
-# # validate job_field input formatting
-# def is_valid_input(job_field):
-#     if not ('a' < job_field < 'z' or 'A' < job_field < 'Z':
-#         print("Improper formatting")
-#         return False
 
-# leave input as-is: API takes care of weird inputs with an "error" key in JSON
 
 # interchange use of API Keys to limit searches
 API_KEYS = ('e21193f2b2ee7a0a7042c7a414822b20b10c84609c42a408732401d8b62ddc06',
             '9e8e77e8075bf5f1bfbbef8848ba3b735d1cf01e0490877307eded9945e41777')
 
 
-counter = random.randint(0, 1)
 key_index = random.randint(0, 1)
 
 
@@ -69,6 +68,7 @@ def enter_into_database(data, user):
     data_table = pd.json_normalize(data)
     engine = db.create_engine('sqlite:///job-search-results.db')
     data_table.to_sql(user_name, con=engine, if_exists='replace', index=False)
+    return engine
 
 
 def user_check(user_name):
