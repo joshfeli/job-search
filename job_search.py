@@ -4,12 +4,19 @@ import random
 import requests
 import json
 import pprint
+import sqlalchemy as db
 
+user_name = None
+while !(user_check(user_name)):
+    user_name = input("Please type your firstname_lastname: ").lower().strip()
+
+#def table_exist():
+#    while !
 # using SerpAPI -- no import needed, just the keys
 job_fields = input("Enter comma-separated fields \
 in which you would like to search for jobs: ").strip()
 location = input("(OPTIONAL) Enter a location for jobs,\
- else hit enter: ").strip()
+else hit enter: ").strip()
 
 # # validate job_field input formatting
 # def is_valid_input(job_field):
@@ -59,7 +66,23 @@ for i in range(len(list_data)):
 
 # Now that we have list of dictionaries with seperate job offerings data
 # , we must now convert it into sql database
-def enter_into_database(data):
+def enter_into_database(data, user_name):
+    
     data_table = pd.json_normalize(data)
     engine = db.create_engine('sqlite:///job-search-results.db')
-    data_table.to_sql('jobs', con=engine, if_exists='replace', index=False)
+    data_table.to_sql(user_name, con=engine, if_exists='replace', index=False)
+
+
+def user_check(user_name):
+    if user_name == None:
+        return False
+    names = user_name.split('_')
+    if len(names) != 2:
+        print("Invalid firstname_lastname")
+        return False
+    for name in names:
+        for letter in name:
+            if !('a' <= letter <= 'z') and !('A' <= letter <= 'Z'):
+                print("Invalid firstname_lastname")
+                return False
+    return True
