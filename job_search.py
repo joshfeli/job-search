@@ -29,9 +29,10 @@ key_index = random.randint(0, 1)
 
 
 # make GET request and convert to json data containing job results
-r = requests.get(f'https://serpapi.com/search.json?engine=google_jobs&q={job_fields}&location={location}&api_key={API_KEYS[key_index]}')
+r = requests.get(f'https://serpapi.com/search.json?engine=google_jobs\
+&q={job_fields}&location={location}&api_key={API_KEYS[key_index]}')
 data = r.json()['jobs_results']
-#enter_into_database(data)
+# enter_into_database(data)
 pprint.pprint(data)
 
 job_nums = input("type the number of the job you are interested in. (Number meaning what place in the order shown) If you are interested \
