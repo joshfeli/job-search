@@ -22,5 +22,5 @@ ________________
 - frontend development for project
 - database usage, as search results are compiled all together into databases with every new search
 
-___________
 Authors: Isaac Gil, Josh Feliciano
+
