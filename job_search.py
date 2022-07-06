@@ -5,15 +5,11 @@ import requests
 import json
 import pprint
 
-
-
 # using SerpAPI -- no import needed, just the keys
-
 job_fields = input("Enter comma-separated fields \
 in which you would like to search for jobs: ").strip()
 location = input("(OPTIONAL) Enter a location for jobs,\
  else hit enter: ").strip()
-
 
 # # validate job_field input formatting
 # def is_valid_input(job_field):
@@ -23,12 +19,7 @@ location = input("(OPTIONAL) Enter a location for jobs,\
 
 # leave input as-is: API takes care of weird inputs with an "error" key in JSON
 
-
-# while not is_valid_input(job_field):
-#job_field = input("Enter comma-separated fields you would like to search for jobs: ")
-
-
-#interchange use of API Keys to limit searches since we only get 100 each
+# interchange use of API Keys to limit searches
 API_KEYS = ('e21193f2b2ee7a0a7042c7a414822b20b10c84609c42a408732401d8b62ddc06',
             '9e8e77e8075bf5f1bfbbef8848ba3b735d1cf01e0490877307eded9945e41777')
 
