@@ -8,6 +8,7 @@ class TestJobSearch(unittest.TestCase):
         pass
     
     def test_enter_into_database(self):
+        # will have to update to make a fake database for tests
         engine = job_search.enter_into_database(mock_results)
         query_result = engine.execute('SELECT * FROM jobs;').fetchall()
         self.assertIs(type(query_result), dict)
