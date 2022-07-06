@@ -59,7 +59,8 @@ for i in range(len(list_data)):
     for j in range(len(list_data[i])):
         for key,value in list_data[i][j].items():
             if key == 'link' and j <= 3:
-                print(f'Application Link {j}: {link_data[i][key]}')
+                prev_link = link_data
+                print(f'Application Link {j}: {list_data[i][j][key]}')
 
 
 # Now that we have list of dictionaries with seperate job offerings data, we must now convert it into sql database
