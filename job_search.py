@@ -5,16 +5,35 @@ import requests
 import json
 import pprint
 import sqlalchemy as db
+import pdb
+
+def user_check(user_name):
+    if user_name == None:
+        return False
+    names = user_name.split('_')
+    if len(names) != 2:
+        print("Invalid firstname_lastname")
+        return False
+    for name in names:
+        for letter in name:
+            if not ('a' <= letter <= 'z') and not ('A' <= letter <= 'Z'):
+                print("Invalid firstname_lastname")
+                return False
+    return True
+def enter_into_database(data, user):
+    data_table = pd.json_normalize(data)
+    data_table.insert(0, 'user_id', user)
+    print()
+    print(data_table)
+    engine = db.create_engine('sqlite:///job-search-results.db')
+    data_table.to_sql('jobs', con=engine, if_exists='append', index=False)#need to fix
+    query = engine.execute("SELECT * FROM jobs").fetchall()
+    print(query)
+    return engine
 
 user_name = None
-while !(user_check(user_name)):
+while not user_check(user_name):
     user_name = input("Please type your firstname_lastname: ").lower().strip()
-
-def create_database():
-    engine = db.create_engine('sqlite:///job-search-results.db')
-    engine.execute('SOURCE database_creation.sql')
-
-
 
 
 
@@ -38,49 +57,32 @@ key_index = random.randint(0, 1)
 r = requests.get(f'https://serpapi.com/search.json?engine=google_jobs\
 &q={job_fields}&location={location}&api_key={API_KEYS[key_index]}')
 data = r.json()['jobs_results']
-# enter_into_database(data)
-pprint.pprint(data)
+# pprint.pprint(data)
 
 job_nums = input("type the number of the job you are interested in. \
 (Number meaning what place in the order shown) If you are interested \
 in multiple, seperate numbers with a ',': ")
 nums = job_nums.split(',')
 id_list = []
+dict_list = []
 for num in nums:
-    id_list.append(data[int(num)]['job_id'])
+    id_list.append(data[int(num) - 1]['job_id'])
+    dict_list.append(data[int(num)-1])
+enter_into_database(dict_list, user_name)
 list_data = []
-for id in id_list:
-    request = requests.get(f'https://serpapi.com/search.json?\
-    engine=google_jobs_listing&q={id}&api_key={API_KEYS[key_index]}')
-    link_data = request.json()["apply_options"]
-    list_data.append(link_data)
-for i in range(len(list_data)):
-    print(f'job {i + 1}:')
-    for j in range(len(list_data[i])):
-        for key, value in list_data[i][j].items():
-            if key == 'link' and j <= 3:
-                print(f'Application Link {j}: {list_data[i][j][key]}')
+# for id in id_list:
+#     request = requests.get(f'https://serpapi.com/search.json?\
+#     engine=google_jobs_listing&q={id}&api_key={API_KEYS[key_index]}')
+#     link_data = request.json()["apply_options"]
+#     list_data.append(link_data)
+# for i in range(len(list_data)):
+#     print(f'job {i + 1}:')
+#     for j in range(len(list_data[i])):
+#         for key, value in list_data[i][j].items():
+#             if key == 'link' and j <= 3:
+#                 print(f'Application Link {j}: {list_data[i][j][key]}')
 
 
 # Now that we have list of dictionaries with seperate job offerings data
 # , we must now convert it into sql database
-def enter_into_database(data, user):
-    data_table = pd.json_normalize(data)
-    engine = db.create_engine('sqlite:///job-search-results.db')
-    data_table.to_sql(user_name, con=engine, if_exists='replace', index=False)
-    return engine
 
-
-def user_check(user_name):
-    if user_name == None:
-        return False
-    names = user_name.split('_')
-    if len(names) != 2:
-        print("Invalid firstname_lastname")
-        return False
-    for name in names:
-        for letter in name:
-            if !('a' <= letter <= 'z') and !('A' <= letter <= 'Z'):
-                print("Invalid firstname_lastname")
-                return False
-    return True
