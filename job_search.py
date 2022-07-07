@@ -27,9 +27,15 @@ def enter_into_database(data, user):
     print(data_table)
     engine = db.create_engine('sqlite:///job-search-results.db')
     data_table.to_sql('jobs', con=engine, if_exists='append', index=False)#need to fix
-    query = engine.execute("SELECT * FROM jobs").fetchall()
-    print(query)
+    # query = engine.execute("SELECT * FROM jobs").fetchall()
+    # pprint.pprint(pd.DataFrame(query))
     return engine
+
+def check_for_user_data(user_name):
+    engine = db.create_engine('sqlite:///job-search-results.db')
+    query = engine.execute(f"SELECT COUNT(user_id) FROM jobs WHERE user_id={user_name};").fetchone()[0]
+
+
 
 user_name = None
 while not user_check(user_name):
@@ -57,7 +63,10 @@ key_index = random.randint(0, 1)
 r = requests.get(f'https://serpapi.com/search.json?engine=google_jobs\
 &q={job_fields}&location={location}&api_key={API_KEYS[key_index]}')
 data = r.json()['jobs_results']
-# pprint.pprint(data)
+for job in data:
+    job.pop('extensions', None)
+    job.pop('thumbnail', None)
+pprint.pprint(data)
 
 job_nums = input("type the number of the job you are interested in. \
 (Number meaning what place in the order shown) If you are interested \
