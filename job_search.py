@@ -51,7 +51,7 @@ def enter_into_database(data, user):
     data_table = pd.json_normalize(data)
     data_table.insert(0, 'user_id', user)
     name_list = data_table.columns
-    print(name_list)
+    # print(name_list)
     # print(data_table)
     engine = db.create_engine('sqlite:///job-search-results.db')
     data_table.to_sql('jobs', con=engine, if_exists='append', index=False)#need to fix
@@ -74,8 +74,6 @@ def program_driver(user_name):
             search_api()
     else:
         search_api()
-
-    
 
 
 def search_api():
